@@ -4443,6 +4443,7 @@ bool spu_thread::process_mfc_cmd()
 								return true;
 							}
 
+#if !(defined(__APPLE__) && defined(ARCH_ARM64))
 							// Check if LSA points to an OUT buffer on the stack from a caller - unlikely to be a loop
 							if (last_getllar_lsa >= SPU_LS_SIZE - 0x10000 && last_getllar_lsa > last_getllar_gpr1)
 							{
@@ -4455,6 +4456,7 @@ bool spu_thread::process_mfc_cmd()
 									return true;
 								}
 							}
+#endif
 
 							getllar_spin_count = std::min<u32>(getllar_spin_count + 1, u16{umax});
 
